@@ -3,7 +3,7 @@ name = "country-info"
 version = "0.1.0"
 authors = ["Md Tuser Sheikh <tuser.sheikh@zoho.com>"]
 edition = "2018"
-description = "Show basic country informations"
+description = "Show basic country informations by country ISO code"
 
 [dependencies]
 clap = "2.33.3"

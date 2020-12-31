@@ -11,19 +11,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         .author(crate_authors!())
         .about(crate_description!())
         .arg(
-            Arg::with_name("country")
+            Arg::with_name("country_iso_code")
                 .required(true)
                 .validator(Country::correct_country_name),
         )
         .get_matches();
 
-    let country_name = app.value_of("country").unwrap().to_lowercase();
-    let url = format!("http://restcountries.eu/rest/v2/name/{}", country_name);
+    let country_name = app.value_of("country_iso_code").unwrap().to_lowercase();
+    let url = format!("http://restcountries.eu/rest/v2/alpha/{}", country_name);
     let uri = url.parse::<Uri>()?;
 
-    let countries = Country::fetch_json(uri).await?;
+    let country = Country::fetch_json(uri).await?;
 
-    println!("{:?}", countries);
+    println!("{:#?}", country);
 
     Ok(())
 }
