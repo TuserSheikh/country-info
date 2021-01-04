@@ -3,13 +3,24 @@ use hyper::{Client, Uri};
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
+struct Currency {
+    name: String,
+    symbol: String,
+}
+
+#[derive(Deserialize, Debug)]
+struct Language {
+    name: String,
+    nativeName: String,
+}
+
+#[derive(Deserialize, Debug)]
 pub struct Country {
     name: String,
     capital: String,
     region: String,
     area: f64,
     flag: String,
-    timezones: Vec<String>,
     currencies: Vec<Currency>,
     languages: Vec<Language>,
 }
@@ -74,15 +85,36 @@ impl Country {
     }
 }
 
-#[derive(Deserialize, Debug)]
-struct Currency {
-    code: String,
-    name: String,
-    symbol: String,
-}
+impl Country {
+    pub fn name(&self) -> &str {
+        &self.name
+    }
 
-#[derive(Deserialize, Debug)]
-struct Language {
-    name: String,
-    nativeName: String,
+    pub fn capital(&self) -> &str {
+        &self.capital
+    }
+
+    pub fn region(&self) -> &str {
+        &self.region
+    }
+
+    pub fn area(&self) -> f64 {
+        self.area
+    }
+
+    pub fn currencies(&self) -> Vec<String> {
+        let mut cur = Vec::new();
+        for i in &self.currencies {
+            cur.push(format!("({}) {}", i.symbol, i.name));
+        }
+        cur
+    }
+
+    pub fn languages(&self) -> Vec<String> {
+        let mut lan = Vec::new();
+        for i in &self.languages {
+            lan.push(format!("({}) {}", i.nativeName, i.name));
+        }
+        lan
+    }
 }

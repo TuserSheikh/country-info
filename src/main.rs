@@ -23,7 +23,24 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 
     let country = Country::fetch_json(uri).await?;
 
-    println!("{:#?}", country);
+    println!("   Country Name: {}", country.name());
+    println!("   Capital City: {}", country.capital());
+    println!("         Rigion: {}", country.region());
+    println!("          Areas: {} Square Kilometers", country.area());
+
+    for (i, c) in country.currencies().iter().enumerate() {
+        match i {
+            0 => println!("     Currencies: {}", c),
+            _ => println!("               - {}", c),
+        }
+    }
+
+    for (i, c) in country.languages().iter().enumerate() {
+        match i {
+            0 => println!("      Languages: {}", c),
+            _ => println!("               - {}", c),
+        }
+    }
 
     Ok(())
 }
